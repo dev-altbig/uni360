@@ -1,0 +1,38 @@
+/* Main layout container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Prevent body scroll */
+}
+
+/* --- Desktop Sidebar Styles --- */
+.sidebar {
+  width: 280px;
+  transition: width 0.3s ease; /* Smooth transition for collapse */
+  overflow-y: auto;
+}
+
+.sidebar.collapsed {
+  width: 88px; /* Width when collapsed */
+}
+
+/* Hide text when sidebar is collapsed */
+.sidebar.collapsed .sidebar-text {
+  display: none;
+}
+
+/* Adjust links for collapsed view */
+.sidebar.collapsed .nav-link,
+.sidebar.collapsed .dropdown-toggle {
+  justify-content: center; /* Center the icon */
+}
+
+.sidebar.collapsed .dropdown-toggle::after {
+  display: none; /* Hide dropdown arrow */
+}
+
+/* --- Main Content Wrapper --- */
+.page-content-wrapper {
+  flex-grow: 1;
+  overflow-y: auto; /* Allow content to scroll */
+}
