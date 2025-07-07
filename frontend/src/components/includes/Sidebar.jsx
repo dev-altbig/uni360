@@ -1,52 +1,66 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown"; // FIX: Use the main import, not /esm
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import useAuth from '../../hooks/useAuth'
+
 
 const SidebarContent = () => {
+
+    const navigate = useNavigate();
+    const { user } = useAuth(); // Get the current user's data
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+        navigate('/Login');
+    };
     return (
         <>
+
             <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <i className="bi bi-bootstrap fs-4 me-3"></i>
+                <i className="bi bi-mortarboard fs-4 me-3"></i>
                 <span className="fs-4 sidebar-text">Uni360.ai</span>
             </a>
             <hr />
             <ul className="nav nav-pills flex-column mb-auto">
-                <li className="nav-item mb-1">
-                    {/* This link is already correct, pointing to the index route 
-                    <NavLink to="/" className="nav-link text-white d-flex align-items-center">
-                        <i className="bi bi-house-door me-2"></i>
-                        <span className="sidebar-text">Home</span>
-                    </NavLink>
-                    */}
-                </li>
                 <li className="mb-1">
-                    {/* FIX: Changed to="/" to match the index route defined in App.jsx */}
                     <NavLink to="/" className="nav-link text-white d-flex align-items-center">
                         <i className="bi bi-speedometer2 me-2"></i>
                         <span className="sidebar-text">Dashboard</span>
                     </NavLink>
                 </li>
-                <li className="mb-1">
-                    <NavLink to="/Add_department" className="nav-link text-white d-flex align-items-center">
-                        <i className="bi bi-people me-2"></i>
-                        <span className="sidebar-text">Manage Department</span>
-                    </NavLink>
-                </li>
-                <li className="mb-1">
-                    <NavLink to="/DepartmentList" className="nav-link text-white d-flex align-items-center">
-                        <i className="bi bi-people me-2"></i>
-                        <span className="sidebar-text">All Department</span>
-                    </NavLink>
-                </li>
-                <li className="mb-1">
-                    <NavLink to="/Add_professor" className="nav-link text-white d-flex align-items-center">
-                        <i className="bi bi-people me-2"></i>
-                        <span className="sidebar-text">Add Professor</span>
-                    </NavLink>
-                </li>
-                {/* These are fine as placeholders for now */}
-
-
+                
+                {/* --- Admin-Only Links --- */}
+                {/* These links will only render if the user's role is 'admin' */}
+                {user && user.role === 'admin' && (
+                    <>
+                        <li className="mb-1">
+                            <NavLink to="/Add_department" className="nav-link text-white d-flex align-items-center">
+                                <i className="bi bi-building-add me-2"></i>
+                                <span className="sidebar-text">Manage Department</span>
+                            </NavLink>
+                        </li>
+                        <li className="mb-1">
+                            <NavLink to="/DepartmentList" className="nav-link text-white d-flex align-items-center">
+                                <i className="bi bi-list-ul me-2"></i>
+                                <span className="sidebar-text">All Departments</span>
+                            </NavLink>
+                        </li>
+                        <li className="mb-1">
+                            <NavLink to="/Add_professor" className="nav-link text-white d-flex align-items-center">
+                                <i className="bi bi-person-plus me-2"></i>
+                                <span className="sidebar-text">Add Professor</span>
+                            </NavLink>
+                        </li>
+                        <li className="mb-1">
+                            <NavLink to="/ProfessorList" className="nav-link text-white d-flex align-items-center">
+                                <i className="bi bi-people me-2" ></i>
+                                <span className="sidebar-text">All Professors</span>
+                            </NavLink>
+                        </li>
+                    </>
+                )}
             </ul>
             <hr />
             <Dropdown>
@@ -58,17 +72,17 @@ const SidebarContent = () => {
                         height="32"
                         className="rounded-circle me-2"
                     />
-                    <strong className="sidebar-text">mdo</strong>
+                    {/* Display the username from the token */}
+                    <strong className="sidebar-text">{user ? user.username || user.role : 'User'}</strong>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu-dark text-small shadow">
-                    <Dropdown.Item href="#">New project...</Dropdown.Item>
-                    <Dropdown.Item href="#">Settings</Dropdown.Item>
                     <Dropdown.Item href="#">Profile</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item href="#">Sign out</Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </>
+
     );
 };
 

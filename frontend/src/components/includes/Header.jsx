@@ -1,8 +1,15 @@
 import React from 'react'; // <-- FIX: Capital 'R'
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import useAuth from '../../hooks/useAuth'
 // FIX: Accept toggleSidebar as a prop
 const Header = ({ toggleSidebar }) => {
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        delete axios.defaults.headers.common['Authorization'];
+        navigate('/Login');
+    };
+    const  {user} = useAuth()
     return (
         <header className="navbar navbar-light bg-light border-bottom shadow-sm">
           <div className="container-fluid">
@@ -36,12 +43,12 @@ const Header = ({ toggleSidebar }) => {
                         height="32"
                         className="rounded-circle me-2"
                       />
-                      <strong>My Profile</strong>
+                      <strong>{user ? user.username || user.role : 'User'}</strong>
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="dropdown-menu-end text-small shadow">
                       <Dropdown.Item href="#">View Profile</Dropdown.Item>
                       <Dropdown.Divider />
-                      <Dropdown.Item href="#">Logout</Dropdown.Item>
+                      <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>
