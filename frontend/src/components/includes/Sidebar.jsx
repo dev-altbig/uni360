@@ -30,6 +30,12 @@ const SidebarContent = () => {
                         <span className="sidebar-text">Dashboard</span>
                     </NavLink>
                 </li>
+                <li className="mb-1">
+                    <NavLink to="/StudentList" className="nav-link text-white d-flex align-items-center">
+                        <i className="bi bi-person me-2"></i>
+                        <span className="sidebar-text">All Student</span>
+                    </NavLink>
+                </li>
                 
                 {/* --- Admin-Only Links --- */}
                 {/* These links will only render if the user's role is 'admin' */}
@@ -59,6 +65,7 @@ const SidebarContent = () => {
                                 <span className="sidebar-text">All Professors</span>
                             </NavLink>
                         </li>
+
                     </>
                 )}
             </ul>

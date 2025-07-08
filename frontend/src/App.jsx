@@ -11,6 +11,7 @@ import Add_professor from './components/Add_professor';
 import Add_department from './components/Add_department';
 import DepartmentList from './components/DepartmentList';
 import ProfessorList from './components/ProfessorList';
+import StudentList from './components/StudentList';
 import Login from './Login';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -66,6 +67,14 @@ function App() {
                 <ProfessorList />
               </ProtectedRoute>
             } 
+          />
+          <Route 
+            path="StudentList"
+            element={
+              <ProtectedRoute allowedRoles={['admin','professor']}>
+                <StudentList  />
+              </ProtectedRoute>
+            }
           />
         </Route>
       </Routes>

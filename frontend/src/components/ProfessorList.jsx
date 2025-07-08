@@ -72,16 +72,9 @@ const Professor = () => {
                                     <tr key={prof.professor_id}>
                                         <td>{prof.professor_id}</td>
                                         <td>{prof.professor_name}</td>
-                                        <td>
-                                            {/* 
-                                              Access the populated department name.
-                                              The ?. (optional chaining) prevents an error if dep_id is null or undefined.
-                                            */}
-                                            {prof.dep_id?.dep_name || 'N/A'}
-                                        </td>
+                                        <td>{prof.dep_id?.dep_name || 'N/A'}</td>
                                         <td>{prof.password}</td>
                                         <td>
-                                            {/* Placeholder for future action buttons */}
                                             <button className="btn btn-sm btn-primary me-2">Edit</button>
                                             <button className="btn btn-sm btn-danger">Delete</button>
                                         </td>
